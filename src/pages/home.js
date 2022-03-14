@@ -3,20 +3,20 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
-import { ImgDiv , ImgBanner , DivBox, H1First} from "../components/style";
+import { HomeDiv, ImgDiv , ImgBanner , DivBox, H1First ,} from "../components/style";
 import axios from 'axios';
 import { useState ,useEffect} from 'react';
 import { MenuItem } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
  
-const Home = (props) => {
+const Home = ({name,setName,getQuestions}) => {
   const navigate = useNavigate();
   const [newData,setNewData] = useState([]);
-  const[name,setName] = useState("");
   const[category,setCategory] = useState("");
-  const[level,setLevel]= useState("");
+  const[difficulty,setDifficulty]= useState("");
   const[error,setError] = useState(false);
+ 
 
   useEffect(()=>{
     getApi();
@@ -33,16 +33,17 @@ const Home = (props) => {
   }
 
   const handleSubmit = () => {
-    if(!name||!category||!level){
+    if(!difficulty || !name || !category ){
       setError(true)
     }else{
       setError(false)
-      props.fetchQuestions(category,level);
-      navigate('/question');
+      getQuestions(category,difficulty);
+      navigate('/quiz');
     }
   }
     return(
         <>
+        <HomeDiv>
         <ImgDiv>
             <ImgBanner src="./undraw_online_test_gba7.svg"  alt="home-banner"/>
         </ImgDiv>
@@ -53,7 +54,7 @@ const Home = (props) => {
         <Box
       component="form"
       sx={{
-        '& > :not(style)': {m:4,mt:5, width: '70ch' },
+        '& > :not(style)': {m:3,mt:5, width: '50ch' },
       }}
       noValidate
       autoComplete="off"
@@ -63,7 +64,7 @@ const Home = (props) => {
     <Box
       component="form"
       sx={{
-        '& > :not(style)': {m:4, width: '70ch' },
+        '& > :not(style)': {m:3, width: '50ch' },
       }}
       noValidate
       autoComplete="off"
@@ -80,12 +81,12 @@ const Home = (props) => {
     <Box
       component="form"
       sx={{
-        '& > :not(style)': {m:4, width: '70ch' },
+        '& > :not(style)': {m:3, width: '50ch' },
       }}
       noValidate
       autoComplete="off"
     >
-      <TextField select id="outlined-basic" label="Level" variant="outlined" onChange={(e) => setLevel(e.target.value)} value={level}>
+      <TextField select id="outlined-basic" label="Level" variant="outlined" onChange={(e) => setDifficulty(e.target.value)} value={difficulty}>
       <MenuItem key="Easy" value="easy">
         Easy
       </MenuItem>
@@ -98,10 +99,13 @@ const Home = (props) => {
         </TextField>
     </Box>
 
-    <Stack spacing={2} direction="row">
-      <Button onClick={handleSubmit} variant="contained" sx={{width:'82ch',height:'8ch'}}>Contained</Button>
+    <Stack direction="row">
+      <Button onClick={handleSubmit} variant="contained" sx={{width:'28ch',height:'8ch',m:3}}>Submit</Button>
     </Stack>
         </DivBox>
+
+        </HomeDiv>
+       
       
         </>
     )

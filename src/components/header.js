@@ -7,7 +7,6 @@ const Header = () => {
         <HeaderDiv>
         <Link to="/">Quiz</Link>
         </HeaderDiv>
-        <hr />
         </>
     )
 }
